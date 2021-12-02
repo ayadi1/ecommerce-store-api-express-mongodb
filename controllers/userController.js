@@ -49,6 +49,7 @@ const register = async (req, res) => {
     if (isSuperAdmin) {
       if (isSuperAdmin == process.env.SECRET_SUPER_ADMINS_KEY) {
         userInfo.isSuperAdmin = true;
+        userInfo.isAdmin = true;
       }
     }
     const newUser = await User.create(userInfo);

@@ -36,6 +36,9 @@ const ProductSchema = mongoose.Schema(
     metaKeywords: {
       type: String,
     },
+    imageList:{
+      type:[String],
+    }
   },
   { timestamps: true }
 );

@@ -2,6 +2,10 @@ require("dotenv").config();
 const Product = require("../modules/productModule");
 const User = require("../modules/userModule");
 const _ = require("lodash");
+const {
+  uploadOneImage,
+  uploadMultipleImage,
+} = require("../functions/uploadFile");
 
 const getAllProducts = async (req, res) => {
   try {
@@ -37,9 +41,6 @@ const getAllProductAndFilter = async (req, res) => {
     if (name) {
       queryOptionFilter.name = { $regex: _.lowerCase(name), $options: "i" };
     }
-    // if (price) {
-    //   queryOptionFilter.price = Number(price);
-    // }
     if (company) {
       queryOptionFilter.company = _.lowerCase(company);
     }
@@ -75,6 +76,19 @@ const getProduct = async (req, res) => {
 };
 const addProduct = async (req, res) => {
   try {
+    const imageListNAme = [];
+    if (req.files.images) {
+      //  upload files
+      if (Array.isArray(req.files.images)) {
+        //! upload Multiple image
+        const imageName = await uploadMultipleImage(req.files.images);
+        if (imageName) imageListNAme = [...imageName];
+      } else {
+        const imageName = await uploadOneImage(req.files.images);
+        if (imageName) imageListNAme.push(imageName);
+      }
+    }
+    console.log(imageListNAme);
     const { userID } = req.user;
     const { name, price, quantity, company } = req.body;
     const findUser = await User.findById(userID);
