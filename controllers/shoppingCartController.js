@@ -27,7 +27,7 @@ const addOrderToShoppingCart = async (req, res) => {
     // check if product exist start
     const findProduct = await Product.findById(productID);
     if (!findProduct) {
-      res
+      return res
         .status(400)
         .json({ success: false, msg: `non product with id : ${productID}` });
     }
@@ -93,7 +93,41 @@ const getOneShoppingCartOrder = async (req, res) => {
   }
 };
 const updateShoppingCartOrder = async (req, res) => {
-  res.send("updateShoppingCartOrder");
+  try {
+    const { userID } = req.user;
+    const { quantity } = req.body;
+    const { id: productID } = req.params;
+    if (!quantity) {
+      return res
+        .status(400)
+        .json({ success: false, msg: "pleas provide a valid info" });
+    }
+    // check if product exist start
+    const findProduct = await Product.findById(productID);
+    if (!findProduct) {
+      return res
+        .status(400)
+        .json({ success: false, msg: `non product with id : ${productID}` });
+    }
+    // check if product exist end
+    const UpdatedShoppingCart = await ShoppingCart.findOneAndUpdate(
+      {
+        productID,
+        userID,
+      },
+      { quantity },
+      { runValidators: true, new: true }
+    );
+    res
+      .status(200)
+      .json({
+        success: true,
+        mse: "pre order was updated",
+        order: UpdatedShoppingCart,
+      });
+  } catch (error) {
+    res.status(400).json({ success: false, error });
+  }
 };
 const deleteShoppingCartOrder = async (req, res) => {
   try {

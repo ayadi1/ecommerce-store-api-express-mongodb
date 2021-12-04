@@ -88,7 +88,6 @@ const addProduct = async (req, res) => {
         if (imageName) imageListNAme.push(imageName);
       }
     }
-    console.log(imageListNAme);
     const { userID } = req.user;
     const { name, price, quantity, company } = req.body;
     const findUser = await User.findById(userID);
