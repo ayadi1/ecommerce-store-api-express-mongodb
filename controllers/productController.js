@@ -76,7 +76,7 @@ const getProduct = async (req, res) => {
 };
 const addProduct = async (req, res) => {
   try {
-    const imageListNAme = [];
+    let imageListNAme = [];
     if (req.files.images) {
       //  upload files
       if (Array.isArray(req.files.images)) {
@@ -106,6 +106,7 @@ const addProduct = async (req, res) => {
     }
     const productInfo = req.body;
     productInfo.createdBy = userID;
+    productInfo.imageList = imageListNAme;
     const newProduct = await Product.create(productInfo);
     if (!newProduct) {
       return res.status(500).json({

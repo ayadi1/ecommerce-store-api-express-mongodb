@@ -22,15 +22,14 @@ const uploadOneImage = async (image) => {
   }
 };
 
-const uploadMultipleImage = (images) => {
+const uploadMultipleImage = async (images) => {
   try {
     const ImageList = [];
-    images.map(async (img) => {
-      const imageName = await uploadOneImage(img);
-      console.log(imageName);
-      // return ImageList.push(imageName);
-    });
-    return ImageList;
+    for (let i = 0; i < images.length; i++) {
+      const img = await uploadOneImage(images[i]);
+      ImageList.push(img);
+    }
+    return(ImageList);
   } catch (error) {
     return false;
   }
