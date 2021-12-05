@@ -30,6 +30,22 @@ const UserSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  city: {
+    type: String,
+    minlength: 4,
+  },
+  postalCode: {
+    type: String,
+    minlength: 3,
+  },
+  country: {
+    type: String,
+    minlength: 4,
+  },
+  address: {
+    type: String,
+    minlength: 4,
+  },
 });
 
 UserSchema.pre("save", async function () {

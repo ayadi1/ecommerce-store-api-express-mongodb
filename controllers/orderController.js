@@ -115,7 +115,9 @@ const deleteOrder = async (req, res) => {
   }
   return res.status(200).json({ success: true });
 };
-
+const paysOrder = async (req,res)=>{
+  
+}
 module.exports = {
   getAllOrders,
   addOrder,
