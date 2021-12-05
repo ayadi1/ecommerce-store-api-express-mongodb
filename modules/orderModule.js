@@ -14,6 +14,25 @@ const OrderSchema = mongoose.Schema(
       type: mongoose.Types.ObjectId,
       required: [true, "pleas provide user id"],
     },
+    status: {
+      type: String,
+      enum: [
+        "Pending",
+        "Cancelled",
+        "Partially Refunded",
+        "Shipped",
+        "completed",
+      ],
+      required: true,
+      default: "Pending",
+    },
+    isPays: {
+      type: Boolean,
+      default: false,
+    },
+    trackingNumber: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
