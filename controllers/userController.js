@@ -14,11 +14,11 @@ const login = async (req, res) => {
     }
     const findUser = await User.findOne({ email });
     if (!findUser) {
-      return res.json({ success: false, msg: "email not exist" });
+      return res.status(404).json({ success: false, msg: "email or password not work" });
     }
     const verifyPss = await bcrypt.compare(password, findUser.password);
     if (!verifyPss) {
-      return res.json({ success: false, msg: "password not exist" });
+      return res.status(404).json({ success: false, msg: "email or password not work" });
     }
     const token = await findUser.genToken(findUser._id, findUser.email);
 
@@ -44,7 +44,7 @@ const register = async (req, res) => {
     }
     const findUser = await User.findOne({ email });
     if (findUser) {
-      return res.json({ success: false, msg: "email already exist" });
+      return res.status(400).json({ success: false, msg: "email already exist" });
     }
     if (isSuperAdmin) {
       if (isSuperAdmin == process.env.SECRET_SUPER_ADMINS_KEY) {
